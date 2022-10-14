@@ -1,16 +1,20 @@
+use wry::{
+    application::{
+        accelerator::{Accelerator, SysMods},
+        event::{Event, StartCause, WindowEvent},
+        event_loop::{ControlFlow, EventLoop},
+        keyboard::KeyCode,
+        menu::{MenuBar as Menu, MenuItem, MenuItemAttributes, MenuType},
+        platform::linux::SystemTrayBuilderExtLinux,
+        window::{Window, WindowBuilder},
+    },
+    webview::WebViewBuilder,
+};
+
 fn main() -> wry::Result<()> {
-    use wry::{
-        application::{
-            accelerator::{Accelerator, SysMods},
-            event::{Event, StartCause, WindowEvent},
-            event_loop::{ControlFlow, EventLoop},
-            keyboard::KeyCode,
-            menu::{MenuBar as Menu, MenuItem, MenuItemAttributes, MenuType},
-            platform::macos::WindowBuilderExtMacOS,
-            window::{Window, WindowBuilder},
-        },
-        webview::WebViewBuilder,
-    };
+
+    // TODO add system tray https://tauri.app/v1/guides/features/system-tray/
+    gtk::init().unwrap();
 
     let mut menu_bar_menu = Menu::new();
     let mut first_menu = Menu::new();
@@ -90,10 +94,7 @@ fn main() -> wry::Result<()> {
     let window = WindowBuilder::new()
         .with_title("WeRead")
         .with_resizable(true)
-        .with_titlebar_transparent(true)
-        .with_fullsize_content_view(true)
-        .with_titlebar_buttons_hidden(false)
-        .with_title_hidden(true)
+        .with_decorations(true)
         .with_menu(menu_bar_menu)
         .with_inner_size(wry::application::dpi::LogicalSize::new(1200.00, 728.00))
         .build(&event_loop)
